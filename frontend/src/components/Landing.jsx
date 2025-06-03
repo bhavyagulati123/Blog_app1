@@ -105,7 +105,7 @@ const Landing = () => {
             <div key={index} className="bg-zinc-800 p-4 rounded-md">
               <div className="flex items-center gap-3 mb-2">
                 <img
-                  src={`http://localhost:5000/images/upload/${post.profilepic || 'default.png'}`}
+                  src={`https://blog-app1-9gu6.onrender.com/images/upload/${post.profilepic || 'default.png'}`}
                   alt="pfp"
                   className="w-10 h-10 rounded-full object-cover"
                 />
