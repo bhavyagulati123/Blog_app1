@@ -12,7 +12,7 @@ const userModel = require("./models/user");
 const postModel = require("./models/post");
 const app = express();
 const port = process.env.PORT;
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(cors({ origin: 'https://blog-app1-six-xi.vercel.app', credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
