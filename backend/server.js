@@ -12,7 +12,7 @@ const userModel = require("./models/user");
 const postModel = require("./models/post");
 const app = express();
 const port = process.env.PORT;
-app.use(cors({ origin: 'https://blog-app1-six-xi.vercel.app', credentials: true }));
+app.use(cors({ origin:'https://blog-app1-six-xi.vercel.app', credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -82,6 +82,7 @@ app.get("/logout", (req, res) => {
 
 // Get user profile
 app.get("/profile", isLoggedIn, async (req, res) => {
+  res.cookie("token", token, { httpOnly: true });
   const user = await userModel.findOne({ email: req.user.email }).populate("posts");
   res.json({ user });
 });

@@ -55,7 +55,7 @@ const Profile = () => {
       alert("Failed to toggle like",error);
     }
   };
-
+const BASE_URL = "https://blog-app1-9gu6.onrender.com";
   const handleDelete = async (postId) => {
     if (!window.confirm("Are you sure you want to delete this post?")) return;
 
@@ -95,7 +95,7 @@ const Profile = () => {
 
       <div className="flex items-center gap-4 mb-6">
         <img
-          src={`http://localhost:5000/images/upload/${
+          src={`${BASE_URL}/public/images/upload/${
             user.profilepic || "default.png"
           }`}
           alt="profile pic"
