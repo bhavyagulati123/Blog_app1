@@ -96,7 +96,7 @@ app.get("/logout", (req, res) => {
 
 // Get user profile
 app.get("/profile", isLoggedIn, async (req, res) => {
-  res.cookie("token", token, { httpOnly: true });
+  // res.cookie("token", token, { httpOnly: true });
   const user = await userModel
     .findOne({ email: req.user.email })
     .populate("posts");
