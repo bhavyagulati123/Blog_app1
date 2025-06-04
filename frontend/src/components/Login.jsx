@@ -13,7 +13,7 @@ const Login = () => {
       await axiosClient.post('/auth', { email, password }, { withCredentials: true });
       navigate('/profile');
     } catch (error) {
-      alert('Login failed. Please check your credentials.'+error);
+      alert('Login failed. Please check your credentials.');
     }
   };
 

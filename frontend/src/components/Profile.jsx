@@ -52,7 +52,7 @@ const Profile = () => {
       });
       await fetchUser();
     } catch (error) {
-      alert("Failed to toggle like",error);
+      alert("Failed to toggle like");
     }
   };
 const BASE_URL = "https://blog-app1-9gu6.onrender.com";
@@ -65,7 +65,7 @@ const BASE_URL = "https://blog-app1-9gu6.onrender.com";
       });
       await fetchUser();
     } catch (error) {
-      alert("Failed to delete post",error);
+      alert("Failed to delete post");
     }
   };
 

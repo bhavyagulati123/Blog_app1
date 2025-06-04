@@ -24,8 +24,8 @@ const Landing = () => {
       const res = await axiosClient.get("/all-posts");
       console.log("Posts response:", res.data); 
       setPosts(res.data);
-    } catch (err) {
-      console.error("Post fetch failed:", err);
+    } catch () {
+      console.error("Post fetch failed:");
     }
   };
 
@@ -36,7 +36,7 @@ const Landing = () => {
       setIsAuthenticated(false);
       navigate("/");
     } catch (err) {
-      console.error("Logout failed",err);
+      console.error("Logout failed");
     }
   };
 
@@ -47,7 +47,7 @@ const Landing = () => {
       // Refresh posts after like toggled to update UI
       fetchPosts();
     } catch (error) {
-      console.error("Failed to like post:", error);
+      console.error("Failed to like post:");
     }
   };
 

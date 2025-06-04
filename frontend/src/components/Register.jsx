@@ -22,7 +22,7 @@ const Register = () => {
       await axiosClient.post(`/register`, formData, {
         withCredentials: true,
       });
-      // alert('Account created. Please login.');
+      alert('Account created. Please login.');
       navigate('/profile');
     } catch (error) {
       console.error(error.response?.data || error.message);
