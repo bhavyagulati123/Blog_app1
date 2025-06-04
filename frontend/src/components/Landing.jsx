@@ -24,7 +24,7 @@ const Landing = () => {
       const res = await axiosClient.get("/all-posts");
       console.log("Posts response:", res.data); 
       setPosts(res.data);
-    } catch () {
+    } catch (error) {
       console.error("Post fetch failed:");
     }
   };
