@@ -14,7 +14,10 @@ const app = express();
 const port = process.env.PORT;
 app.use(
   cors({
-    origin: "https://blog-app1-a7oqyx1ua-bhavyagulati123s-projects.vercel.app",
+    origin: [
+      "https://blog-app1-a7oqyx1ua-bhavyagulati123s-projects.vercel.app",
+      "https://blog-app1-six-xi.vercel.app"
+    ],
     credentials: true,
   })
 );
