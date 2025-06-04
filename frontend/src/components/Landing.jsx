@@ -34,7 +34,7 @@ const Landing = () => {
     try {
       await axiosClient.get("/logout", { withCredentials: true });
       setIsAuthenticated(false);
-      navigate("/login");
+      navigate("/");
     } catch (err) {
       console.error("Logout failed",err);
     }
