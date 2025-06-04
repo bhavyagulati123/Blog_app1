@@ -98,7 +98,11 @@ app.post("/auth", async (req, res) => {
 
 // Logout
 app.get("/logout", (req, res) => {
-  res.Cookie("");
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+  });
   res.json({ message: "Logged out" });
 });
 
