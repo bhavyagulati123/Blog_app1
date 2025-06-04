@@ -95,7 +95,7 @@ const BASE_URL = "https://blog-app1-9gu6.onrender.com";
 
       <div className="flex items-center gap-4 mb-6">
         <img
-          src={`${BASE_URL}/public/images/upload/${user.profilepic || "default.png"}`}
+          src={`${BASE_URL}/images/upload/${user.profilepic || "default.png"}`}
           alt="profile pic"
           className="w-16 h-16 rounded-md object-cover cursor-pointer hover:opacity-80 transition"
           onClick={() => navigate("/update-profile-pic")}
