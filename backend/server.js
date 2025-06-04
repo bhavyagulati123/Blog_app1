@@ -6,13 +6,18 @@ const multer = require("multer");
 const path = require("path");
 const crypto = require("crypto");
 const cors = require("cors");
-const dotenv= require("dotenv")
-dotenv.config()
+const dotenv = require("dotenv");
+dotenv.config();
 const userModel = require("./models/user");
 const postModel = require("./models/post");
 const app = express();
 const port = process.env.PORT;
-app.use(cors({ origin:'https://blog-app1-a7oqyx1ua-bhavyagulati123s-projects.vercel.app', credentials: true }));
+app.use(
+  cors({
+    origin: "https://blog-app1-a7oqyx1ua-bhavyagulati123s-projects.vercel.app",
+    credentials: true,
+  })
+);
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -20,14 +25,14 @@ app.use(express.static("public"));
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './public/images/upload');
+    cb(null, "./public/images/upload");
   },
   filename: function (req, file, cb) {
     crypto.randomBytes(12, function (err, bytes) {
       const fn = bytes.toString("hex") + path.extname(file.originalname);
       cb(null, fn);
     });
-  }
+  },
 });
 const upload = multer({ storage });
 
@@ -40,7 +45,8 @@ app.get("/", (req, res) => {
 app.post("/register", async (req, res) => {
   const { name, username, email, password, age } = req.body;
   const existingUser = await userModel.findOne({ email });
-  if (existingUser) return res.status(400).json({ message: "User already exists" });
+  if (existingUser)
+    return res.status(400).json({ message: "User already exists" });
 
   bcrypt.hash(password, 10, async function (err, hash) {
     const user = await userModel.create({
@@ -65,8 +71,16 @@ app.post("/auth", async (req, res) => {
 
   bcrypt.compare(password, user.password, (err, result) => {
     if (result) {
-      const token = jwt.sign({ email: user.email, userid: user._id }, process.env.JWT_SECRET);
-      res.cookie("token", token, { httpOnly: true });
+      const token = jwt.sign(
+        { email: user.email, userid: user._id },
+        process.env.JWT_SECRET
+      );
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
       res.status(200).json({ message: "Login successful", user });
     } else {
       res.status(401).json({ message: "Invalid password" });
@@ -83,7 +97,9 @@ app.get("/logout", (req, res) => {
 // Get user profile
 app.get("/profile", isLoggedIn, async (req, res) => {
   res.cookie("token", token, { httpOnly: true });
-  const user = await userModel.findOne({ email: req.user.email }).populate("posts");
+  const user = await userModel
+    .findOne({ email: req.user.email })
+    .populate("posts");
   res.json({ user });
 });
 
@@ -112,7 +128,7 @@ app.post("/edit/:id", isLoggedIn, async (req, res) => {
 // Delete post
 app.delete("/delete/:id", isLoggedIn, async (req, res) => {
   const user = await userModel.findOne({ email: req.user.email });
-  user.posts = user.posts.filter(pid => pid.toString() !== req.params.id);
+  user.posts = user.posts.filter((pid) => pid.toString() !== req.params.id);
   await user.save();
   await postModel.findByIdAndDelete(req.params.id);
   res.json({ message: "Post deleted" });
@@ -141,24 +157,28 @@ app.post("/upload", isLoggedIn, upload.single("profile"), async (req, res) => {
   const user = await userModel.findOne({ email: req.user.email });
   user.profilepic = req.file.filename;
   await user.save();
-  res.json({ message: "Profile picture updated", profilepic: req.file.filename });
+  res.json({
+    message: "Profile picture updated",
+    profilepic: req.file.filename,
+  });
 });
 
 // Get all posts
 app.get("/all-posts", async (req, res) => {
   try {
-    const posts = await postModel.find({})
+    const posts = await postModel
+      .find({})
       .populate("user", "username profilepic")
       .sort({ createdAt: -1 });
 
-    const formatted = posts.map(post => ({
+    const formatted = posts.map((post) => ({
       _id: post._id,
       username: post.user.username,
       profilepic: post.user.profilepic,
       content: post.content,
       likes: post.likes.length,
-      likedBy: post.likes.map(id => id.toString()),
-      createdAt: post.createdAt
+      likedBy: post.likes.map((id) => id.toString()),
+      createdAt: post.createdAt,
     }));
 
     res.json(formatted);
